@@ -12,9 +12,9 @@ download_coastal_site_data(station, parameter, start_date, end_date,
 
 \item{parameter}{character, required.}
 
-\item{start_date}{character, required. Format must be yyyy-mm-dd.}
+\item{start_date}{character, required. Format must be \code{yyyy-mm-dd}.}
 
-\item{end_date}{character, required. Format must be yyyy-mm-dd.}
+\item{end_date}{character, required. Format must be \code{yyyy-mm-dd}.}
 
 \item{bin}{character. One of \code{"mon", "day", "hour"}. Default is
 \code{"day"}}
