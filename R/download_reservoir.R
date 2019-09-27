@@ -100,8 +100,6 @@ download_reservoir <- function(aggregate_by = NULL,
   content <- get_reservoirs(url = url,
                             path = path)
 
-  writeLines(content)
-
   df <- readr::read_csv(content,
                         comment = "#")
 
@@ -184,7 +182,6 @@ get_reservoirs <- function(url,
   )
 
   res <- cli$get(path)
-  print(res$url)
 
   if(res$status_code != 200) {
     stop(paste0("Server returned: "), res$response_headers$status)

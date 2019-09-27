@@ -19,8 +19,8 @@ download_well <- function(state_well_nmbr) {
   content <- get_reservoirs(url = url,
                             path = path)
 
-  writeLines(content)
-
   df <- readr::read_csv(content,
                         comment = "#")
+
+  return(df)
 }

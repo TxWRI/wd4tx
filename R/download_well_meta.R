@@ -24,7 +24,6 @@ get_well_meta <- function(url,
   )
 
   res <- cli$get(path)
-  print(res$url)
 
   if(res$status_code != 200) {
     stop(paste0("Server returned: "), res$response_headers$status)
