@@ -13,7 +13,8 @@ download_coastal_geometry <- function(type) {
   ## extra data in the geojson, need to figure out how to get the data
   ## into the sf
 
-  content <- get_well_meta(url,
-                           path = NULL)
+  content <- get_download(url,
+                          path = NULL,
+                          accept = "json")
   return(content)
 }

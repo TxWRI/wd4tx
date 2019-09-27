@@ -97,11 +97,13 @@ download_reservoir <- function(aggregate_by = NULL,
   url <- "https://www.waterdatafortexas.org"
   path <- paste0("reservoirs/", call)
 
-  content <- get_reservoirs(url = url,
-                            path = path)
+  content <- get_download(url = url,
+                          path = path,
+                          accept = "csv")
 
   df <- readr::read_csv(content,
-                        comment = "#")
+                        comment = "#",
+                        col_types = "Dddddddd")
 
   ## Note for future: I'd like to extract the commented metadata.
   ## However, it is only sometimes returned in the parsed csv.
@@ -170,24 +172,4 @@ check_arguments_download_reservoir <- function(aggregate_by,
 }
 
 
-# function to make the http request
 
-get_reservoirs <- function(url,
-                           path,
-                           args = list(),
-                           ...) {
-  cli <- crul::HttpClient$new(
-    url = url,
-    headers = list(Accept = "text/csv")
-  )
-
-  res <- cli$get(path)
-
-  if(res$status_code != 200) {
-    stop(paste0("Server returned: "), res$response_headers$status)
-  }
-
-  content <- res$parse("UTF-8")
-
-  return(content)
-}

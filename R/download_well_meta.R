@@ -9,29 +9,10 @@ download_well_meta <- function() {
   url <- "https://www.waterdatafortexas.org"
   path <- paste0("groundwater/wells.geojson")
 
-  content <- get_well_meta(url, path)
-  return(content)
-}
-
-
-get_well_meta <- function(url,
-                           path,
-                           args = list(),
-                           ...) {
-  cli <- crul::HttpClient$new(
-    url = url,
-    headers = list(Accept = "application/json")
-  )
-
-  res <- cli$get(path)
-
-  if(res$status_code != 200) {
-    stop(paste0("Server returned: "), res$response_headers$status)
-  }
-
-  content <- res$parse("UTF-8")
-
+  content <- get_download(url, path, accept = "json")
   content <- sf::read_sf(content)
-
   return(content)
 }
+
+
+

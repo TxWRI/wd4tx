@@ -29,7 +29,7 @@ download_coastal_site_data <- function(station,
               binning = bin)
 
   ## download
-  content <- get_coastal_sites(url, path, args = args)
+  content <- get_download(url, path, args = args, accept = "json")
 
   ## parse the returned json
   content <- jsonlite::fromJSON(content)

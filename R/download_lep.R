@@ -31,10 +31,9 @@ download_lep <- function(quad = "710",
                  "&end_date=",
                  end_date)
 
-  content <- get_reservoirs(url = url,
-                            path = path)
-
-  writeLines(content)
+  content <- get_download(url = url,
+                          path = path,
+                          accept = "csv")
 
   df <- readr::read_csv(content,
                         comment = "#")

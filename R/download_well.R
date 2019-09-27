@@ -16,8 +16,9 @@ download_well <- function(state_well_nmbr) {
   url <- "https://www.waterdatafortexas.org"
   path <- paste0("groundwater/well/", state_well_nmbr, ".csv")
 
-  content <- get_reservoirs(url = url,
-                            path = path)
+  content <- get_download(url = url,
+                          path = path,
+                          accept = "csv")
 
   df <- readr::read_csv(content,
                         comment = "#")
