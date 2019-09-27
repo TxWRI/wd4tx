@@ -1,0 +1,111 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  dpi = 200,
+  out.width = "100%"
+)
+
+extrafont::loadfonts(device = "win", quiet = TRUE)
+```
+# wd4tx
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+
+`wd4tx` provides an R interface for downloading data from the Texas Water Development Board's (TWDB) Water Data For Texas data portal (waterdatafortexas.org). This package is not affliated with the TWDB. Any questions or issues should be directed to: https://github.com/mps9506/wd4tx/issues
+
+# Installation
+
+`wd4tx` is not published to CRAN. In order to install the package make sure you have `devtools` installed.
+
+```{r install, eval=FALSE, include=TRUE}
+install.packages("devtools")
+devtools::install_github("mps9506/wd4tx")
+```
+
+
+# Usage
+
+## Download Reservoir Storage Data
+
+TWDB provides data for the percent storage, reservoir storage (acre-feet), conservation storage (acre-feet), and conservation capacity (acre-feet) for the water supply (and some flood control) reservoirs used by the state of Texas. The data is available for individual reservoirs, or aggregated by state planning area, river basin, municipal supply, and climate regions. See https://www.waterdatafortexas.org/reservoirs/statewide for more details.
+
+
+### Download individual reservoir storage data
+
+```{r example1, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(wd4tx)
+library(tidyverse)
+
+df <- download_reservoir(reservoir = "limestone")
+df <- df %>%
+  mutate(date = as.Date(date),
+         water_level = as.numeric(water_level),
+         surface_area = as.numeric(surface_area))
+
+ggplot(df) +
+  geom_area(aes(date, percent_full), 
+            fill = "dodgerblue",
+            alpha = 0.50) +
+  labs(y = "Percent Full", x = "Date",
+       title = "Lake Limestone",
+       subtitle = "Ratio of conservation storage to conservation capacity over time") +
+  theme_minimal(base_family = "Arial Narrow")
+```
+
+### Download reservoir storage data aggregated by municipality
+
+```{r example2, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+
+df <- download_reservoir(aggregate_by = "municipal",
+                         region_name = "houston")
+df <- df %>%
+  mutate(date = as.Date(date))
+
+ggplot(df) +
+  geom_area(aes(date, percent_full), 
+            fill = "dodgerblue",
+            alpha = 0.50) +
+  labs(y = "Percent Full", x = "Date",
+       title = "Houston Reservoir Supply",
+       subtitle = "Ratio of conservation storage to conservation capacity over time") +
+  theme_minimal(base_family = "Arial Narrow")
+```
+
+## Download Individual Well Data
+
+TWDB provides water level measurements from a statewide network of well level recorders. To download the information, all that is needed is the state well number. This information can be accessed with the `download_well_meta()` function. This will provide a `sf` dataframe:
+
+```{r example3, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+df <- download_well_meta()
+
+df
+
+```
+
+```{r example4, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+ggplot(df) +
+  geom_sf(aes(color = status, fill = status), alpha = 0.5) +
+  theme_void(base_family = "Arial Narrow")
+```
+
+```{r example5, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+df <- download_well("6507905")
+
+df <- df %>%
+  mutate(datetime = as.POSIXct(datetime))
+
+ggplot(df) +
+  geom_line(aes(datetime, `water_level(ft below land surface)`)) +
+  scale_y_reverse() +
+  labs(y = "Water Level (ft below surface)",
+       x = "Date") +
+  theme_minimal(base_family = "Arial Narrow")
+```
+

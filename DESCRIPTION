@@ -1,0 +1,18 @@
+Package: wd4tx
+Title: Access 'TWDB' Water Data For Texas
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Michael",
+           family = "Schramm",
+           role = c("aut", "cre"),
+           email = "michael.schramm@ag.tamu.edu")
+Description: An R interface to the Texas Water Development Board ('TWDB') Water Data for Texas website <https://www.waterdatafortexas.org>.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+Imports:
+  crul,
+  readr,
+  sf
+BugReports: https://github.com/mps9506/wd4tx/isssues
