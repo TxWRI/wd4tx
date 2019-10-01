@@ -69,7 +69,8 @@ ggplot(df) +
   labs(y = "Percent Full", x = "Date",
        title = "Lake Limestone",
        subtitle = "Ratio of conservation storage to conservation capacity over time") +
-  theme_minimal(base_family = "Arial Narrow")
+  theme_minimal(base_family = "Arial Narrow",
+                base_size = 9)
 ```
 
 ### Download reservoir storage data aggregated by municipality
@@ -88,7 +89,8 @@ ggplot(df) +
   labs(y = "Percent Full", x = "Date",
        title = "Houston Reservoir Supply",
        subtitle = "Ratio of conservation storage to conservation capacity over time") +
-  theme_minimal(base_family = "Arial Narrow")
+  theme_minimal(base_family = "Arial Narrow",
+                base_size = 9)
 ```
 
 ## Download Individual Well Data
@@ -105,7 +107,8 @@ df
 ```{r example4, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 ggplot(df) +
   geom_sf(aes(color = status, fill = status), alpha = 0.5) +
-  theme_void(base_family = "Arial Narrow")
+  theme_void(base_family = "Arial Narrow",
+             base_size = 9)
 ```
 
 ```{r example5, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
@@ -119,6 +122,94 @@ ggplot(df) +
   scale_y_reverse() +
   labs(y = "Water Level (ft below surface)",
        x = "Date") +
-  theme_minimal(base_family = "Arial Narrow")
+  theme_minimal(base_family = "Arial Narrow",
+                base_size = 9)
+```
+
+
+## Download Evaporation and Precipitation Data
+
+```{r example6, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+df <- download_lep(quad = "710", 
+                   start_date = "2010-01",
+                   end_date = "2018-12")
+df <- df %>%
+  pivot_longer(cols = -period,
+               names_to = "label",
+               values_to = "inches") %>%
+  mutate(period = lubridate::ymd(period, truncated = 2))
+
+ggplot(df) +
+  geom_line(aes(period, inches, color = label, linetype = label)) +
+  theme_minimal(base_family = "Arial Narrow",
+                base_size = 9) +
+  theme(legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.title = element_blank())
+```
+
+## Download Coastal Freshwater Inflow Data
+
+Estimated freshwater inflows and inflow balances for Texas estuaries are provided to support environmental and water planning studies. Details are here: https://www.waterdatafortexas.org/coastal/hydrology
+
+A `geoid` argument is required to identify the watershed data is requested for. Use `download_coastal_geometry()` to download `sf` files which include the name, location, and id.
+```{r example7, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+df <- download_coastal_geometry(type = "watershed")
+df
+```
+
+Valid type arguments include `c(basin", "bay", "estuary", "sub_watershed", "watershed")`. Some types return simple features with topological errors. An example of one way to deal with this is shown below:
+
+```{r example8, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(sf)
+df <- df %>%
+  st_transform(crs = 3081) %>%
+  st_simplify()
+
+ggplot(df) +
+  geom_sf() +
+  geom_sf_text(aes(label = id), size = 3) +
+  theme_void(base_size = 9)
+```
+
+With a valid id number, `download_coastal_hydrology()` can be used to download freshwater inflow data for the specified feature.
+```{r example9, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+df <- download_coastal_hydrology(geoid = "689")
+df <- df %>%
+  mutate(date = as.Date(date))
+
+ggplot(df) +
+  geom_line(aes(date, fresh_in)) +
+    theme_minimal(base_family = "Arial Narrow",
+                base_size = 9) +
+  labs(x = "Date", y = "Volume (acre-ft)") +
+  theme(legend.position = "bottom",
+        legend.direction = "horizontal",
+        legend.title = element_blank())
+```
+
+## Download Coastal Water Quality Data
+
+A list of sites is available with the `download_coastal_sites()` function:
+```{r example10, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+df <- download_coastal_sites(all_stations = TRUE)
+df
+```
+
+A list of parameters measured at that station are available using `download_coastal_site_parameters()`:
+
+```{r example11, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+df <- download_coastal_site_parameters("SAB2")
+df %>% select(units_name, code, name)
+```
+
+```{r example12, echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+df <- download_coastal_site_data(station = "SAB2",
+                                 parameter = "seawater_salinity",
+                                 start_date = "2010-01-01",
+                                 end_date = "2018-01-01",
+                                 bin = "hour")
+df %>%
+  mutate(datetime_utc = as.POSIXct(datetime_utc))
 ```
 
