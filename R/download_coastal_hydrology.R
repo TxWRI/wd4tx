@@ -5,12 +5,13 @@
 #' @param resample character, optional. By default, data is returned in daily
 #'   interval. Specify one of \code{c("month", "year")} to get monthly or yearly
 #'   summed values.
+#' @param opts list of curl options passed to crul::HttpClient()
 #'
-#' @return
+#' @return tibble
 #' @export
-#'
-#' @examples
-download_coastal_hydrology <- function(geoid, resample = NULL) {
+download_coastal_hydrology <- function(geoid,
+                                       resample = NULL,
+                                       opts = list()) {
 
   url <- sprintf("https://waterdatafortexas.org/coastal/api/hydrology/%s/timeseries",
                  geoid)
@@ -19,11 +20,19 @@ download_coastal_hydrology <- function(geoid, resample = NULL) {
   else args = list(resample = resample)
 
   ## download
-  content <- get_download(url, path, args = args, accept = "json")
+  content <- get_download(url,
+                          path,
+                          args = args,
+                          accept = "json",
+                          opts = opts)
+  attr.url <- attr(content, 'url')
 
   ## parse the returned json
   content <- jsonlite::fromJSON(content)
 
   ## return as tibble (need to specify column types)
   content <- tibble::as_tibble(content)
+  attr(content, 'url') <- attr.url
+
+  return(content)
 }

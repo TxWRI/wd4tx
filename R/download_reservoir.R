@@ -6,15 +6,17 @@
 #' @param region_name optional character. Documentation comming soon.
 #' @param reservoir optional character. Documentation soon.
 #' @param period optional character. Documentation soon
+#' @param opts list of curl options passed to crul::HttpClient()
 #'
 #' @return dataframe
-#' @import crul
+#' @importFrom readr read_csv
 #' @export
 #'
 download_reservoir <- function(aggregate_by = NULL,
                                region_name = NULL,
                                reservoir = NULL,
-                               period = "historical") {
+                               period = "historical",
+                               opts = list()) {
   ## allowable aggregate_by
   ab = c("statewide",
          "planning region",
@@ -99,11 +101,14 @@ download_reservoir <- function(aggregate_by = NULL,
 
   content <- get_download(url = url,
                           path = path,
-                          accept = "csv")
+                          accept = "csv",
+                          opts = opts)
+  attr.url <- attr(content, 'url')
 
   df <- readr::read_csv(content,
                         comment = "#",
                         col_types = "Dddddddd")
+  attr(content, 'url') <- attr.url
 
   ## Note for future: I'd like to extract the commented metadata.
   ## However, it is only sometimes returned in the parsed csv.

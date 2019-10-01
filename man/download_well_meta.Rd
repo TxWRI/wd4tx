@@ -4,7 +4,10 @@
 \alias{download_well_meta}
 \title{Download "TWDB" Well Metadata}
 \usage{
-download_well_meta()
+download_well_meta(opts = list())
+}
+\arguments{
+\item{opts}{list of curl options passed to crul::HttpClient()}
 }
 \value{
 sf

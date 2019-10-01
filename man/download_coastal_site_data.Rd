@@ -5,7 +5,7 @@
 \title{Download 'TWDB' Coastal Measurement Data}
 \usage{
 download_coastal_site_data(station, parameter, start_date, end_date,
-  bin = "day")
+  binning = "day", opts = list())
 }
 \arguments{
 \item{station}{character, required.}
@@ -16,8 +16,10 @@ download_coastal_site_data(station, parameter, start_date, end_date,
 
 \item{end_date}{character, required. Format must be \code{yyyy-mm-dd}.}
 
-\item{bin}{character. One of \code{"mon", "day", "hour"}. Default is
+\item{binning}{character. One of \code{"mon", "day", "hour"}. Default is
 \code{"day"}}
+
+\item{opts}{list of curl options passed to crul::HttpClient()}
 }
 \value{
 tibble

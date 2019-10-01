@@ -2,11 +2,16 @@
 #'
 #' @param type character, required. One of \code{c("basin", "bay", "estuary",
 #'   "sub_watershed", "watershed")}
+#' @param opts list of curl options passed to crul::HttpClient()
 #'
-#' @return sf
+#' @return simple features data_frame
+#' @importFrom sf st_as_sfc
+#' @importFrom sf st_as_sf
+#' @importFrom jsonlite fromJSON
 #' @export
 #'
-download_coastal_geometry <- function(type) {
+download_coastal_geometry <- function(type,
+                                      opts = list()) {
   url <- sprintf("https://waterdatafortexas.org/coastal/api/geometries/%s",
                  type)
 
@@ -15,7 +20,9 @@ download_coastal_geometry <- function(type) {
 
   content <- get_download(url,
                           path = NULL,
-                          accept = "json")
+                          accept = "json",
+                          opts = opts)
+  attr.url <- attr(content, 'url')
 
   ## parse the json
   parsed_content <- jsonlite::fromJSON(content)
@@ -31,8 +38,10 @@ download_coastal_geometry <- function(type) {
 
   sf_content <- as_tibble(parsed_content$features %>%
                             select(-c(geometry, properties))) %>%
-    mutate(geometry = st_as_sfc(content, GeoJSON = TRUE)) %>%
-    st_as_sf()
+    mutate(geometry = sf::st_as_sfc(content, GeoJSON = TRUE)) %>%
+    sf::st_as_sf()
+
+  attr(sf_content, 'url') <- attr.url
 
   return(sf_content)
 }

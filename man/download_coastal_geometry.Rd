@@ -4,14 +4,16 @@
 \alias{download_coastal_geometry}
 \title{Download 'TWDB' Coastal Geographic Boundaries}
 \usage{
-download_coastal_geometry(type)
+download_coastal_geometry(type, opts = list())
 }
 \arguments{
 \item{type}{character, required. One of \code{c("basin", "bay", "estuary",
 "sub_watershed", "watershed")}}
+
+\item{opts}{list of curl options passed to crul::HttpClient()}
 }
 \value{
-sf
+simple features data_frame
 }
 \description{
 Download 'TWDB' Coastal Geographic Boundaries

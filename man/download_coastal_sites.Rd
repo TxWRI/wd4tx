@@ -4,12 +4,14 @@
 \alias{download_coastal_sites}
 \title{Download 'TWDB' Coastal Station Information}
 \usage{
-download_coastal_sites(all_stations = FALSE)
+download_coastal_sites(all_stations = FALSE, opts = list())
 }
 \arguments{
 \item{all_stations}{logical. Defaults is FALSE. If FALSE, returns all
 stations for which actual data is available. If TRUE, returns all stations
 regardless of data availability.}
+
+\item{opts}{list of curl options passed to crul::HttpClient()}
 }
 \value{
 tibble

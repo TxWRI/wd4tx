@@ -2,11 +2,13 @@
 #' Download "TWDB" Individual Well Data
 #'
 #' @param state_well_nmbr required character. State well number.
+#' @param opts list of curl options passed to crul::HttpClient()
 #'
 #' @return dataframe
 #' @export
 #'
-download_well <- function(state_well_nmbr) {
+download_well <- function(state_well_nmbr,
+                          opts = list()) {
 
   # check for valid arguments
   if(!is.character(state_well_nmbr)) {
@@ -18,10 +20,13 @@ download_well <- function(state_well_nmbr) {
 
   content <- get_download(url = url,
                           path = path,
-                          accept = "csv")
+                          accept = "csv",
+                          opts = opts)
+  attr.url <- attr(content, 'url')
 
-  df <- readr::read_csv(content,
+  content <- readr::read_csv(content,
                         comment = "#")
+  attr(content, 'url') <- attr.url
 
-  return(df)
+  return(content)
 }

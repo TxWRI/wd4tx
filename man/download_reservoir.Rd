@@ -5,7 +5,7 @@
 \title{Download "TWDB" Reservoir Data}
 \usage{
 download_reservoir(aggregate_by = NULL, region_name = NULL,
-  reservoir = NULL, period = "historical")
+  reservoir = NULL, period = "historical", opts = list())
 }
 \arguments{
 \item{aggregate_by}{optional character. One of \code{c("statewide", "planning
@@ -16,6 +16,8 @@ region", "basin", "municipal", "climate region")}. Defaults to \code{NULL}.}
 \item{reservoir}{optional character. Documentation soon.}
 
 \item{period}{optional character. Documentation soon}
+
+\item{opts}{list of curl options passed to crul::HttpClient()}
 }
 \value{
 dataframe
