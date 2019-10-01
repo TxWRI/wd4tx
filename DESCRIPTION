@@ -13,6 +13,8 @@ LazyData: true
 RoxygenNote: 6.1.1
 Imports:
   crul,
+  fauxpas,
+  jsonlite,
   readr,
   sf
 BugReports: https://github.com/mps9506/wd4tx/isssues

@@ -5,7 +5,7 @@
 \title{Download 'TWDB' Lake Evaporation and Precipitation Data}
 \usage{
 download_lep(quad = "710", start_date = "2010-01",
-  end_date = "2018-12")
+  end_date = "2018-12", opts = list())
 }
 \arguments{
 \item{quad}{required character. TWDB quad number.}
@@ -13,6 +13,8 @@ download_lep(quad = "710", start_date = "2010-01",
 \item{start_date}{required character. Start date of data. Specified as 4-digit year and 2-digit month. YYYY-MM}
 
 \item{end_date}{required character. End date of data. Specified as 4-digit year and 2-digit month. YYYY-MM}
+
+\item{opts}{list of curl options passed to crul::HttpClient()}
 }
 \value{
 tibble

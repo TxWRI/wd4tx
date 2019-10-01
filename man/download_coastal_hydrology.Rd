@@ -4,7 +4,7 @@
 \alias{download_coastal_hydrology}
 \title{Download 'TWDB' Historical Bay and Estuary Freshwater Inflow Data}
 \usage{
-download_coastal_hydrology(geoid, resample = NULL)
+download_coastal_hydrology(geoid, resample = NULL, opts = list())
 }
 \arguments{
 \item{geoid}{character, required.}
@@ -12,6 +12,11 @@ download_coastal_hydrology(geoid, resample = NULL)
 \item{resample}{character, optional. By default, data is returned in daily
 interval. Specify one of \code{c("month", "year")} to get monthly or yearly
 summed values.}
+
+\item{opts}{list of curl options passed to crul::HttpClient()}
+}
+\value{
+tibble
 }
 \description{
 Download 'TWDB' Historical Bay and Estuary Freshwater Inflow Data

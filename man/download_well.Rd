@@ -4,10 +4,12 @@
 \alias{download_well}
 \title{Download "TWDB" Individual Well Data}
 \usage{
-download_well(state_well_nmbr)
+download_well(state_well_nmbr, opts = list())
 }
 \arguments{
 \item{state_well_nmbr}{required character. State well number.}
+
+\item{opts}{list of curl options passed to crul::HttpClient()}
 }
 \value{
 dataframe

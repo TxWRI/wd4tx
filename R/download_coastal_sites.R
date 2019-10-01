@@ -4,10 +4,12 @@
 #' @param all_stations logical. Defaults is FALSE. If FALSE, returns all
 #'   stations for which actual data is available. If TRUE, returns all stations
 #'   regardless of data availability.
+#' @param opts list of curl options passed to crul::HttpClient()
 #'
 #' @return tibble
 #' @export
-download_coastal_sites <- function(all_stations = FALSE) {
+download_coastal_sites <- function(all_stations = FALSE,
+                                   opts = list()) {
   url <- "https://www.waterdatafortexas.org/coastal/api/stations"
   path <- NULL
 
@@ -16,35 +18,19 @@ download_coastal_sites <- function(all_stations = FALSE) {
   else args = list(all = "false")
 
   ## download
-  content <- get_coastal_sites(url, path, args)
+  content <- get_download(url,
+                          path,
+                          args,
+                          accept = "json",
+                          opts = opts)
 
   ## parse the returned json
   content <- jsonlite::fromJSON(content)
+  attr.url <- attr(content, 'url')
 
   ## return as tibble
   content <- tibble::as_tibble(content)
+  attr(content, 'url') <- attr.url
 
   return(content)
   }
-
-
-get_coastal_sites <-  function(url,
-                               path,
-                               args = list(),
-                               ...) {
-  cli <- crul::HttpClient$new(
-    url = url,
-    headers = list(Accept = "application/json")
-  )
-
-  res <- cli$get(path, query = args)
-  print(res$url)
-
-  if(res$status_code != 200) {
-    stop(paste0("Server returned: "), res$response_headers$status)
-  }
-
-  content <- res$parse("UTF-8")
-
-  return(content)
-}

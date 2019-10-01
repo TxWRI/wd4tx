@@ -15,7 +15,7 @@ download_coastal_site_parameters <- function(station) {
                  station)
   path <- NULL
   ## download
-  content <- get_coastal_sites(url, path)
+  content <- get_download(url, path, accept = "json")
 
   ## parse the returned json
   content <- jsonlite::fromJSON(content)

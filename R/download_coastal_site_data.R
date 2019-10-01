@@ -5,8 +5,9 @@
 #' @param parameter character, required.
 #' @param start_date character, required. Format must be \code{yyyy-mm-dd}.
 #' @param end_date character, required. Format must be \code{yyyy-mm-dd}.
-#' @param bin character. One of \code{"mon", "day", "hour"}. Default is
+#' @param binning character. One of \code{"mon", "day", "hour"}. Default is
 #'   \code{"day"}
+#' @param opts list of curl options passed to crul::HttpClient()
 #'
 #' @return tibble
 #' @export
@@ -18,7 +19,8 @@ download_coastal_site_data <- function(station,
                                        parameter,
                                        start_date,
                                        end_date,
-                                       bin = "day") {
+                                       binning = "day",
+                                       opts = list()) {
 
 
   url <- sprintf("https://waterdatafortexas.org/coastal/api/stations/%s/data/%s",
@@ -26,16 +28,22 @@ download_coastal_site_data <- function(station,
   path = NULL
   args = list(start_date = start_date,
               end_date = end_date,
-              binning = bin)
+              binning = binning)
 
   ## download
-  content <- get_coastal_sites(url, path, args = args)
+  content <- get_download(url,
+                          path,
+                          args = args,
+                          accept = "json",
+                          opts = opts)
+  attr.url <- attr(content, 'url')
 
   ## parse the returned json
   content <- jsonlite::fromJSON(content)
 
   ## return as tibble
   content <- tibble::as_tibble(content)
+  attr(content, 'url') <- attr.url
 
   return(content)
 }
