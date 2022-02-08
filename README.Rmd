@@ -1,10 +1,5 @@
 ---
-output: 
-  github_document:
-    toc: true
-    toc_depth: 2
-    fig_width: 5
-    fig_height: 3
+output: github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -13,6 +8,7 @@ output:
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
+  dev = "ragg_png",
   fig.path = "man/figures/README-",
   dpi = 200,
   out.width = "100%"
@@ -21,7 +17,11 @@ knitr::opts_chunk$set(
 extrafont::loadfonts(device = "win", quiet = TRUE)
 ```
 # wd4tx
+
+<!-- badges: start -->
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![license](https://img.shields.io/badge/license-MIT + file LICENSE-lightgrey.svg)](https://choosealicense.com/)
+<!-- badges: end -->
 
 `wd4tx` is an R interface for downloading data from the Texas Water Development Board's (TWDB) Water Data For Texas data portal (https://www.waterdatafortexas.org). Core functions include:
 
@@ -29,9 +29,9 @@ extrafont::loadfonts(device = "win", quiet = TRUE)
 - `download_well()`: Groundwater well levels
 - `download_lep()`: Precipitation and evaporation by quad
 -  `download_coastal_site_data()`: TWDB coastal water quality (primarily salinity and dissolved oxygen) data
-- `download_coastal_hydrology()`: TWDB freshwater inflow estiamtes for bays and estuaries
+- `download_coastal_hydrology()`: TWDB freshwater inflow estimates for bays and estuaries
 
-This package is not affliated with the TWDB. Any questions or issues should be directed to: https://github.com/mps9506/wd4tx/issues
+This package is not affiliated with the TWDB. Any questions or issues should be directed to: https://github.com/TxWRI/wd4tx/issues
 
 # Installation
 
@@ -39,7 +39,7 @@ This package is not affliated with the TWDB. Any questions or issues should be d
 
 ```{r install, eval=FALSE, include=TRUE}
 install.packages("devtools")
-devtools::install_github("mps9506/wd4tx")
+devtools::install_github("TxWRI/wd4tx")
 ```
 
 
