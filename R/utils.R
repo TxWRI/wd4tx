@@ -8,7 +8,6 @@
 #' @param opts curl options to crul::HttpClient. Must be a list.
 #'
 #' @return Parsed json content or csv
-#' @export
 #' @importFrom crul HttpClient
 #' @keywords internal
 #' @noRd
@@ -49,7 +48,6 @@ get_download <- function(url,
 #' @param x http request
 #'
 #' @return error message or nothing
-#' @export
 #' @keywords internal
 #' @noRd
 #' @importFrom fauxpas find_error_class
