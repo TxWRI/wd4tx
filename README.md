@@ -6,6 +6,7 @@
 <!-- badges: start -->
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![R-CMD-check](https://github.com/TxWRI/wd4tx/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/TxWRI/wd4tx/actions/workflows/check-standard.yaml)
 [![license](https://img.shields.io/badge/license-MIT%20+%20file%20LICENSE-lightgrey.svg)](https://choosealicense.com/)
 <!-- badges: end -->
 
@@ -67,7 +68,7 @@ ggplot(df) +
   labs(y = "Percent Full", x = "Date",
        title = "Lake Limestone",
        subtitle = "Ratio of conservation storage to conservation capacity over time") +
-  theme_minimal(base_family = "Arial Narrow",
+  theme_minimal(base_family = "Source Sans Pro",
                 base_size = 9)
 ```
 
@@ -88,7 +89,7 @@ ggplot(df) +
   labs(y = "Percent Full", x = "Date",
        title = "Houston Reservoir Supply",
        subtitle = "Ratio of conservation storage to conservation capacity over time") +
-  theme_minimal(base_family = "Arial Narrow",
+  theme_minimal(base_family = "Source Sans Pro",
                 base_size = 9)
 ```
 
@@ -129,7 +130,7 @@ df
 ``` r
 ggplot(df) +
   geom_sf(aes(color = status, fill = status), alpha = 0.5) +
-  theme_void(base_family = "Arial Narrow",
+  theme_void(base_family = "Source Sans Pro",
              base_size = 9)
 ```
 
@@ -146,7 +147,7 @@ ggplot(df) +
   scale_y_reverse() +
   labs(y = "Water Level (ft below surface)",
        x = "Date") +
-  theme_minimal(base_family = "Arial Narrow",
+  theme_minimal(base_family = "Source Sans Pro",
                 base_size = 9)
 ```
 
@@ -166,7 +167,7 @@ df <- df %>%
 
 ggplot(df) +
   geom_line(aes(period, inches, color = label, linetype = label)) +
-  theme_minimal(base_family = "Arial Narrow",
+  theme_minimal(base_family = "Source Sans Pro",
                 base_size = 9) +
   theme(legend.position = "bottom",
         legend.direction = "horizontal",
@@ -237,7 +238,7 @@ df <- df %>%
 
 ggplot(df) +
   geom_line(aes(date, fresh_in)) +
-    theme_minimal(base_family = "Arial Narrow",
+    theme_minimal(base_family = "Source Sans Pro",
                 base_size = 9) +
   labs(x = "Date", y = "Volume (acre-ft)") +
   theme(legend.position = "bottom",
