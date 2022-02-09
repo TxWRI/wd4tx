@@ -4,8 +4,12 @@
 \alias{download_lep}
 \title{Download 'TWDB' Lake Evaporation and Precipitation Data}
 \usage{
-download_lep(quad = "710", start_date = "2010-01",
-  end_date = "2018-12", opts = list())
+download_lep(
+  quad = "710",
+  start_date = "2010-01",
+  end_date = "2018-12",
+  opts = list()
+)
 }
 \arguments{
 \item{quad}{required character. TWDB quad number.}

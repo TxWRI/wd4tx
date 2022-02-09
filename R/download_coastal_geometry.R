@@ -8,6 +8,9 @@
 #' @importFrom sf st_as_sfc
 #' @importFrom sf st_as_sf
 #' @importFrom jsonlite fromJSON
+#' @importFrom dplyr select mutate
+#' @importFrom tibble as_tibble
+#' @importFrom rlang .data
 #' @export
 #'
 download_coastal_geometry <- function(type,
@@ -37,7 +40,7 @@ download_coastal_geometry <- function(type,
   ## be sure to document and provide an example
 
   sf_content <- as_tibble(parsed_content$features %>%
-                            select(-c(geometry, properties))) %>%
+                            select(-c(.data$geometry, .data$properties))) %>%
     mutate(geometry = sf::st_as_sfc(content, GeoJSON = TRUE)) %>%
     sf::st_as_sf()
 

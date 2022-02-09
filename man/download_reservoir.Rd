@@ -4,8 +4,13 @@
 \alias{download_reservoir}
 \title{Download "TWDB" Reservoir Data}
 \usage{
-download_reservoir(aggregate_by = NULL, region_name = NULL,
-  reservoir = NULL, period = "historical", opts = list())
+download_reservoir(
+  aggregate_by = NULL,
+  region_name = NULL,
+  reservoir = NULL,
+  period = "historical",
+  opts = list()
+)
 }
 \arguments{
 \item{aggregate_by}{optional character. One of \code{c("statewide", "planning

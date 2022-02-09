@@ -4,8 +4,14 @@
 \alias{download_coastal_site_data}
 \title{Download 'TWDB' Coastal Measurement Data}
 \usage{
-download_coastal_site_data(station, parameter, start_date, end_date,
-  binning = "day", opts = list())
+download_coastal_site_data(
+  station,
+  parameter,
+  start_date,
+  end_date,
+  binning = "day",
+  opts = list()
+)
 }
 \arguments{
 \item{station}{character, required.}
