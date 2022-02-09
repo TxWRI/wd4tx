@@ -24,4 +24,6 @@ Imports:
     sf,
     tibble
 BugReports: https://github.com/TxWRI/wd4tx/isssues
-URL: https://github.com/TxWRI/wd4tx
+URL: https://github.com/TxWRI/wd4tx,
+    https://txwri.github.io/wd4tx/
+Config/Needs/website: TxWRI/twriTemplates
